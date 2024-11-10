@@ -8,6 +8,8 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\EmployeeDashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CheckoutController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -17,11 +19,27 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+Route::get('/order', function () {
+    return view('order');
+})->name('order.page');
+
+Route::post('/order/submit', [OrderController::class, 'submit'])->name('order.submit');
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/checkout', function () {
+    return view('checkout');
+});
+
+Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout');
+
+
 
 require __DIR__.'/auth.php';
 

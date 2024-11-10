@@ -8,7 +8,7 @@
     @vite(['resources/css/app.css', 'resources/sass/app.scss', 'resources/js/app.js'])
 
 
-    <script src="{{ asset('assets/jquery.js') }}"></script>
+    <script src="{{ asset('asset/jquery.js') }}"></script>
     <link href={{asset("DataTables/datatables.min.css")}} rel="stylesheet">
 
 

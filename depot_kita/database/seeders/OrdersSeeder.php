@@ -37,7 +37,20 @@ class OrdersSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
-            // Add more orders as needed
+            [
+                'id' => 3,
+                'customer_id' => 3,
+                'order_date' => Carbon::now()->subDays(2),
+                'status' => 'Delivered',
+                'waiting_list_number' => 1,
+                'total_amount' => 100.25,
+                'special_requests' => 'Please call before delivery.',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            // Add more orders here
+
+            
         ]);
     }
 }

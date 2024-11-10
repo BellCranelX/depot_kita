@@ -7,7 +7,7 @@
             <h1>List Orders</h1>
         </div>
     </div>
-    <table id="orderData" class="display">
+    <table id="orderData" class="table table-striped display">
         <thead>
             <tr>
                 <th>ID</th>
@@ -42,7 +42,7 @@
                                 <i class="fa-solid fa-pencil"></i>
                             </button>
                         </a>
-                        <form action="{{ route('orders.destroy', [ "order" => $order->id ]) }}" method="POST">
+                        <form action="{{ route('orders.destroy', [ "order" => $order->id ]) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-sm btn-danger ml-1">
@@ -58,9 +58,14 @@
 </div>
 @endsection
 
+@push('head')
+<!-- Load Bootstrap and DataTables CSS -->
+<link href="{{ asset('DataTables/datatables.min.css') }}" rel="stylesheet">
+@endpush
+
 @push('scripts')
-<!-- Load jQuery and DataTables locally -->
-<script src="{{ asset('assets/jquery.js') }}"></script>
+<!-- Load jQuery, Bootstrap, and DataTables JS -->
+<script src="{{ asset('asset/jquery.js') }}"></script>
 <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
 <script>
     $(document).ready(function() {

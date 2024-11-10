@@ -1,12 +1,17 @@
-@extends('base')
+@extends('admin/admin_navbar')
 
 @section('content')
-<div class="container-fluid">
-
+<div class="container">
+<div class="row">
+        <div class="col-md-2 btn-group">
+            <h1>List Orders</h1>
+        </div>
+    </div>
     <div class="row mt-4">
         <div class="col-md-12">
             <h3>Order Details</h3>
-            <table class="table table-bordered">
+            <!-- Add table classes for Bootstrap styling -->
+            <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -39,9 +44,22 @@
                     </tr>
                     @endif
                 </tbody>
-
             </table>
         </div>
     </div>
 </div>
 @endsection
+
+@push('head')
+<!-- Load Bootstrap and DataTables CSS -->
+<link href="{{ asset('DataTables/datatables.min.css') }}" rel="stylesheet">
+@endpush
+
+@push('scripts')
+<!-- Load jQuery, Bootstrap, and DataTables JS -->
+<script src="{{ asset('asset/jquery.js') }}"></script>
+<script src="{{ asset('DataTables/datatables.min.js') }}"></script>
+<script>
+    $(document).ready(function() {});
+</script>
+@endpush

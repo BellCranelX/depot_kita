@@ -17,12 +17,19 @@ class orders extends Pivot
     }
 
 
-
     public function transactions(){
         return $this->hasMany(Transactions::class,'order_id');
     }
 
     public function products_id(){
+        return $this->hasMany(Products::class,'id');
+    }
+
+    public function orderItems(){
+        return $this->hasMany(order_products::class,'id');
+    }
+
+    public function orderProducts(){
         return $this->hasMany(Products::class,'id');
     }
     
