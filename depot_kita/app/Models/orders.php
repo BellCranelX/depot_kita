@@ -16,14 +16,14 @@ class orders extends Pivot
         return $this->belongsTo(Customers::class, 'user_id');
     }
 
-    public function products()
-    {
-        return $this->belongsTo(Products::class, 'product_id');
-    }
+
 
     public function transactions(){
         return $this->hasMany(Transactions::class,'order_id');
     }
 
+    public function products_id(){
+        return $this->hasMany(Products::class,'id');
+    }
     
 }

@@ -13,7 +13,7 @@ class TransactionsController extends Controller
     public function index()
     {
         $transactions =transactions::latest()->paginate(10);
-        return view("admin.transaction", compact("transactions"));
+        return view("admin.transaction.index", compact("transactions"));
     }
 
     /**

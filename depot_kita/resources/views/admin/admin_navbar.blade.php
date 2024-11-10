@@ -5,12 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Navbar with Sidebar</title>
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/sass/app.scss', 'resources/js/app.js'])
 
+
+    <script src="{{ asset('assets/jquery.js') }}"></script>
+    <link href={{asset("DataTables/datatables.min.css")}} rel="stylesheet">
+
+
+    <link rel="stylesheet" href="{{asset("fontawesome-free-6.6.0-web\css\all.min.css")}}">
     {{-- For Font --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poltawski+Nowy:ital,wght@0,400..700;1,400..700&display=swap"
+
         rel="stylesheet">
     <style>
         body {
