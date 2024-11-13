@@ -18,6 +18,7 @@ class CustomersSeeder extends Seeder
             DB::table('customer')->insert([
                 'name' => fake()->name,
                 'email' => fake()->unique()->safeEmail,
+                'password' => bcrypt('12345'),
                 'phone_number' => fake()->unique()->phoneNumber,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
