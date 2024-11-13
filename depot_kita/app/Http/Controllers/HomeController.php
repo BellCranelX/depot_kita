@@ -21,6 +21,10 @@ class HomeController extends Controller
       return view('employee.dashboard', compact('user'));  // Employee dashboard
     }
 
+    if ($user->role === 'customer') {
+      return view('customer.order', compact('user'));  // Customer dashboard
+    }
+    
     // Optionally handle other roles or redirect if no matching role found
     return redirect()->route('login');  // Redirect to login if role doesn't match
   }

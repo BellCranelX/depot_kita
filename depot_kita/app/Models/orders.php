@@ -13,7 +13,7 @@ class orders extends Pivot
     //
     public function customer()
     {
-        return $this->belongsTo(Customers::class, 'user_id');
+        return $this->belongsTo(Customer::class, 'user_id');
     }
 
 

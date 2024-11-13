@@ -2,14 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\EmployeeDashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\CheckoutController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -77,4 +78,20 @@ Route::resource('orders', OrdersController::class)->names([
     'destroy' => 'orders.destroy',
 ]);
 
+Route::resource('customers', CustomersController::class)->names([
+    'index' => 'customers.index',
+    'create' => 'customers.create',
+    'store' => 'customers.store',
+    'show' => 'customers.show',
+    'edit' => 'customers.edit',
+    'update' => 'customers.update',
+    'destroy' => 'customers.destroy',
+]);
+
 Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+
+use App\Http\Controllers\Customer\AuthController;
+
+Route::get('/customer/login', [AuthController::class, 'showLoginForm'])->name('customer.login');
+Route::post('/customer/login', [AuthController::class, 'login']);
