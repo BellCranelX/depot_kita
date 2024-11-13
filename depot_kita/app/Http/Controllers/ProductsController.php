@@ -63,4 +63,8 @@ class ProductsController extends Controller
     {
         //
     }
+    public function showMenu(){
+        $products = products::all();
+        return view('customer.order',compact('products'));
+    }
 }

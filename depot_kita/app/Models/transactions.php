@@ -1,18 +1,25 @@
 <?php
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model;
 
-class transactions extends Pivot
+class transactions extends Model
 {
-    public function customer()
+    protected $fillable = [
+        'order_id',
+        'transaction_date',
+        'amount',
+        'payment_method',
+        'status',
+    ];
+
+    public function order()
     {
-        return $this->belongsTo(Customer::class, 'user_id');
+        return $this->belongsTo(orders::class, 'order_id');
     }
 
-    public function orders()
+    public function customer()
     {
-        return $this->belongsTo(Orders::class, 'order_id');
+        return $this->belongsTo(Customer::class, 'customer_id'); // Fixed to 'customer_id'
     }
 }

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained('order');
             $table->timestamp('transaction_date')->useCurrent();
             $table->decimal('amount', 8, 2);
-            $table->string('payment_method');
-            $table->string('status')->default('paid');
+            $table->enum('payment_method', ['credit_card', 'bank_transfer', 'cash']);
+            $table->enum('status', ['pending', 'completed', 'failed']);
             $table->timestamps();
         });
     }
