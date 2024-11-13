@@ -23,6 +23,7 @@
         body {
             font-family: 'Poltawski Nowy', serif;
             background-color: #FCF1D5;
+            padding-top: 64px;
         }
     </style>
 
