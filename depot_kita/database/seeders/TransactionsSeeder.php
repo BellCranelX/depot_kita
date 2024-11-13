@@ -14,13 +14,13 @@ class TransactionsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('transaction')->insert([
+        DB::table('transactions')->insert([
             [
                 'id' => 1,
                 'order_id' => 1,
                 'transaction_date' => Carbon::now(),
                 'amount' => 150.50,
-                'payment_method' => 'Credit Card',
+                'payment_method' => 'Ovo',
                 'status' => 'Completed',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
@@ -30,7 +30,7 @@ class TransactionsSeeder extends Seeder
                 'order_id' => 2,
                 'transaction_date' => Carbon::now()->subDay(),
                 'amount' => 200.75,
-                'payment_method' => 'PayPal',
+                'payment_method' => 'Dana',
                 'status' => 'Pending',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

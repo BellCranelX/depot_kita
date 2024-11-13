@@ -104,4 +104,5 @@ Route::middleware([EnsureCustomerIsAuthenticated::class])->group(function () {
     Route::get('/customer/order', [AuthController::class, 'order'])->name('customer.order');
 });
 
-Route::get('/customer/order', [ProductsController::class, 'showMenu'])->name('customer.order');
+Route::get('/customer/order', action: [ProductsController::class, 'showMenu'])->name('customer.order');
+Route::post('/checkout', [OrderController::class, 'processCheckout'])->name('checkout');

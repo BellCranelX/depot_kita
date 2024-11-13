@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaction', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('order');
+            $table->foreignId('order_id')->constrained('orders');
             $table->timestamp('transaction_date')->useCurrent();
             $table->decimal('amount', 8, 2);
-            $table->enum('payment_method', ['credit_card', 'bank_transfer', 'cash']);
+            $table->enum('payment_method', ['Qris','Ovo','Gopay','Dana']);
             $table->enum('status', ['pending', 'completed', 'failed']);
             $table->timestamps();
         });
