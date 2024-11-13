@@ -12,7 +12,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        $products = Products::orderBy("id","desc")->paginate(10);
+        $products = products::orderBy("id","desc")->paginate(10);
         return view("admin.product", compact("products"));
     }
 
@@ -62,5 +62,9 @@ class ProductsController extends Controller
     public function destroy(products $products)
     {
         //
+    }
+    public function showMenu(){
+        $products = products::all();
+        return view('customer.order',compact('products'));
     }
 }

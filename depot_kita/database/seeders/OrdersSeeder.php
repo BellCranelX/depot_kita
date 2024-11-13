@@ -14,7 +14,7 @@ class OrdersSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('order')->insert([
+        DB::table('orders')->insert([
             [
                 'id' => 1,
                 'customer_id' => 1,
@@ -30,7 +30,7 @@ class OrdersSeeder extends Seeder
                 'id' => 2,
                 'customer_id' => 2,
                 'order_date' => Carbon::now()->subDay(),
-                'status' => 'Shipped',
+                'status' => 'Pending',
                 'waiting_list_number' => 3,
                 'total_amount' => 200.75,
                 'special_requests' => 'Gift wrap the items.',
@@ -41,7 +41,7 @@ class OrdersSeeder extends Seeder
                 'id' => 3,
                 'customer_id' => 3,
                 'order_date' => Carbon::now()->subDays(2),
-                'status' => 'Delivered',
+                'status' => 'Pending',
                 'waiting_list_number' => 1,
                 'total_amount' => 100.25,
                 'special_requests' => 'Please call before delivery.',

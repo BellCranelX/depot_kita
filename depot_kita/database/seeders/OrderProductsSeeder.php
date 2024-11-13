@@ -14,7 +14,7 @@ class OrderProductsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('order_product')->insert([
+        DB::table('order_products')->insert([
             [
                 'id' => 1,
                 'order_id' => 1,

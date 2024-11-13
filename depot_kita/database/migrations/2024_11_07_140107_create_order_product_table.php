@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_product', function (Blueprint $table) {
+        Schema::create('order_products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('order');
+            $table->foreignId('order_id')->constrained('orders');
             $table->foreignId('product_id')->constrained('product');
             $table->integer('quantity');
             $table->decimal('price', 8, 2);
@@ -21,6 +21,8 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+
+    
 
     /**
      * Reverse the migrations.

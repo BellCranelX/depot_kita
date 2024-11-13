@@ -9,7 +9,9 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\Customer\AuthController;
 use App\Http\Controllers\EmployeeDashboardController;
+use App\Http\Middleware\EnsureCustomerIsAuthenticated;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('/', function () {
@@ -38,7 +40,8 @@ Route::get('/checkout', function () {
     return view('checkout');
 });
 
-Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout');
+
+Route::post('/checkout', [OrderController::class, 'processCheckout'])->middleware('auth:customer');
 
 
 
@@ -91,7 +94,15 @@ Route::resource('customers', CustomersController::class)->names([
 Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
 
-use App\Http\Controllers\Customer\AuthController;
+
 
 Route::get('/customer/login', [AuthController::class, 'showLoginForm'])->name('customer.login');
 Route::post('/customer/login', [AuthController::class, 'login']);
+
+
+Route::middleware([EnsureCustomerIsAuthenticated::class])->group(function () {
+    Route::get('/customer/order', [AuthController::class, 'order'])->name('customer.order');
+});
+
+Route::get('/customer/order', action: [ProductsController::class, 'showMenu'])->name('customer.order');
+Route::post('/checkout', [OrderController::class, 'processCheckout'])->name('checkout');
