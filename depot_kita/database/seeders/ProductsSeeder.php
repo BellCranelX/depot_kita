@@ -21,6 +21,7 @@ class ProductsSeeder extends Seeder
             'stock' => 100,
             "description"=>"Ayam Tanpa Tulang... Menggunakan Ayam Koloke Disiram Kuah",
             "image_url"=>"default.png",
+            "active" => 1,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
@@ -32,6 +33,7 @@ class ProductsSeeder extends Seeder
             'stock' => 100,
             "description"=>"Ayam Crispy... Ayam Tanpa Tulang... Saos BBQ Pisah... Tidak Pedas...",
             "image_url"=>"default.png",
+            "active" => 1,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
@@ -43,6 +45,7 @@ class ProductsSeeder extends Seeder
             'stock' => 100,
             "description"=>"Ayam Saos Inggris... Tanpa Tulang... Tidak Pedas...",
             "image_url"=>"default.png",
+            "active" => 1,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
@@ -53,6 +56,7 @@ class ProductsSeeder extends Seeder
             'stock' => 100,
             "description"=>"Empal Gepuk Empuk Dapat Kremesan Dapat Sambal Bajak Dipisah",
             "image_url"=>"default.png",
+            "active" => 1,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
@@ -63,6 +67,7 @@ class ProductsSeeder extends Seeder
             'stock' => 100,
             "description"=>"Ayam Goreng Cenderung Rasa Asin Gurih Dapat Kremesan Sambal Bajak Pisah",
             "image_url"=>"default.png",
+            "active" => 1,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
@@ -73,6 +78,7 @@ class ProductsSeeder extends Seeder
             'stock' => 100,
             "description"=>"Ayam Geprek Tanpa Tulang Sambel Bawang, Sambel Dipisah... LEvel Sambel Tidak Ada... Sambel Mantulll Pake Sambel Bawang... Dapet Tempe 2Pcs...",
             "image_url"=>"default.png",
+            "active" => 1,
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('stock');
             $table->string('description');
             $table->string('image_url')->nullable();
-            
+            $table->bigInteger('active')->default(1);
             $table->timestamps();
         });
     }

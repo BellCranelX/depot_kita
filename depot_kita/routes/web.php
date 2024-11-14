@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CustomersController;
+use App\Http\Controllers\AdminOrderController;
 use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\Customer\AuthController;
 use App\Http\Controllers\EmployeeDashboardController;
@@ -106,3 +107,15 @@ Route::middleware([EnsureCustomerIsAuthenticated::class])->group(function () {
 
 Route::get('/customer/order', action: [ProductsController::class, 'showMenu'])->name('customer.order');
 Route::post('/checkout', [OrderController::class, 'processCheckout'])->name('checkout');
+
+use App\Http\Controllers\MenuController;
+
+Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
+// Define the route for storing the new product
+Route::post('/menus', [MenuController::class, 'store'])->name('menus.store');
+
+Route::delete('/menus/{id}', [MenuController::class, 'destroy'])->name('menus.destroy');
+
+
+
+
