@@ -7,93 +7,153 @@
   <title>Menu</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
   <meta name="csrf-token" content="{{ csrf_token() }}">
- <style>
-  .card {
-    cursor: pointer;
-    transition: transform 0.3s;
-    height: 100%;
-  }
-
-  .card:hover {
-    transform: scale(1.05);
-  }
-
-  .card-img-top {
-    height: 200px;
-    object-fit: cover;
-  }
-
-  @media (max-width: 576px) {
-    .card-img-top {
-      height: 150px;
+  <style>
+    .card {
+      cursor: pointer;
+      transition: transform 0.3s;
+      height: 100%;
     }
-  }
 
-  .out-of-stock {
-    background-color: #f5f5f5;
-    color: #888;
-  }
+    .card:hover {
+      transform: scale(1.05);
+    }
 
-  .out-of-stock .card-body {
-    opacity: 0.5;
-  }
+    .card-img-top {
+      height: 200px;
+      object-fit: cover;
+    }
 
-  .out-of-stock .card-title,
-  .out-of-stock .card-footer {
-    color: red;
-    font-weight: bold;
-  }
+    @media (max-width: 576px) {
+      .card-img-top {
+        height: 150px;
+      }
+    }
 
-  /* Style for cart items */
-  #cartItems {
-    max-height: 400px;
-    overflow-y: auto;
-  }
+    .out-of-stock {
+      background-color: #f5f5f5;
+      color: #888;
+    }
 
-  #cartItems .list-group-item {
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    margin-bottom: 10px;
-  }
+    .out-of-stock .card-body {
+      opacity: 0.5;
+    }
 
-  #cartItems .list-group-item .ms-2 button {
-    margin-left: 5px;
-  }
+    .out-of-stock .card-title,
+    .out-of-stock .card-footer {
+      color: red;
+      font-weight: bold;
+    }
 
-  .btn-warning {
-    background-color: #ffc107;
-    color: white;
-  }
+    /* Style for cart items */
+    #cartItems {
+      max-height: 400px;
+      overflow-y: auto;
+    }
 
-  .btn-danger {
-    background-color: #dc3545;
-    color: white;
-  }
+    #cartItems .list-group-item {
+      border: 1px solid #e0e0e0;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
 
-  .btn-warning:hover {
-    background-color: #e0a800;
-  }
+    #cartItems .list-group-item .ms-2 button {
+      margin-left: 5px;
+    }
 
-  .btn-danger:hover {
-    background-color: #c82333;
-  }
-</style>
+    .btn-warning {
+      background-color: #ffc107;
+      color: white;
+    }
+
+    .btn-danger {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .btn-warning:hover {
+      background-color: #e0a800;
+    }
+
+    .btn-danger:hover {
+      background-color: #c82333;
+    }
+
+    .navbar {
+      padding: 15px 0;
+      /* Reduce the vertical padding */
+    }
+
+    .navbar-brand img {
+      height: 70px;
+      /* Adjust logo size if needed */
+    }
+
+    .navbar-nav .nav-item .nav-link {
+      font-size: 14px;
+      /* Reduce font size for the links */
+    }
+
+    .navbar-nav .nav-item .dropdown-toggle {
+      font-size: 20px;
+      /* Reduce font size for the dropdown */
+    }
+
+    .navbar .navbar-toggler-icon {
+      width: 20px;
+      /* Reduce the size of the toggle icon */
+      height: 20px;
+    }
+  </style>
 
 </head>
 
 <body>
-  @if (Auth::guard('customer')->check())
-  <p>Welcome, {{ Auth::guard('customer')->user()->name }}!</p>
-  @else
-  <p>You need to login as a customer to view this page.</p>
-  @endif
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="{{route('customer.order')}}">
+        <img src="{{ asset('logo/depot_kita.jpg') }}" alt="Logo"> Depot Kita
+      </a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ms-auto">
+          @if (Auth::guard('customer')->check())
+          <li class="nav-item dropdown">
+            <!-- User Icon with Dropdown Toggle -->
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa-regular fa-user"></i> Welcome, {{ Auth::guard('customer')->user()->name }}
+            </a>
+
+            <!-- Dropdown Menu -->
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li>
+                <a class="dropdown-item" href="{{ route('customer.profile') }}">Profile</a>
+              </li>
+              <li>
+                <!-- Logout Form Triggered from Dropdown Item -->
+                <form id="logout-form" action="{{ route('customer.logout') }}" method="POST" style="display: none;">
+                  @csrf
+                </form>
+                <a class="dropdown-item" href="{{ route('customer.logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </li>
+          @else
+          <li class="nav-item">
+            <a class="btn btn-primary" href="{{ route('customer.login') }}">Login</a>
+          </li>
+          @endif
+        </ul>
+      </div>
+    </div>
+  </nav>
 
   <div class="container mt-4">
     <div class="row">
       @foreach ($products as $product)
       <div class="col-md-4 col-sm-6 mb-4">
         <div class="card {{ $product->stock == 0 ? 'out-of-stock' : '' }}" onclick="showModal('{{ $product->id }}', '{{ $product->name }}', '{{ $product->price }}')">
-          <img src="{{ asset('storage/'.$product->image) }}" class="card-img-top" alt="{{ $product->name }}">
+          <img src="{{ asset('menu/'.$product->image_url) }}" class="card-img-top" alt="{{ $product->name }}">
           <div class="card-body">
             <h5 class="card-title">{{ $product->name }}</h5>
             <p class="card-text">{{ $product->description }}</p>
@@ -142,61 +202,61 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
   <script>
-  let cart = [];
-  let selectedItem = {};
+    let cart = [];
+    let selectedItem = {};
 
-  function showModal(productId, productName, productPrice) {
-    selectedItem = {
-      id: productId,
-      name: productName,
-      price: productPrice
-    };
-    document.getElementById('menuModalLabel').textContent = productName;
-    document.getElementById('quantity').value = 1;
-    document.getElementById('specialRequests').value = '';
-    new bootstrap.Modal(document.getElementById('menuModal')).show();
-  }
-
-  function addToCart() {
-    const quantity = parseInt(document.getElementById('quantity').value);
-    const specialRequest = document.getElementById('specialRequests').value;
-
-    // Check if the item already exists in the cart
-    const existingItemIndex = cart.findIndex(item => item.id === selectedItem.id);
-    if (existingItemIndex !== -1) {
-      // If item exists, update its quantity
-      cart[existingItemIndex].quantity += quantity;
-      cart[existingItemIndex].specialRequest = specialRequest;
-    } else {
-      // If item doesn't exist, add a new item to the cart
-      const item = {
-        ...selectedItem,
-        quantity,
-        specialRequest
+    function showModal(productId, productName, productPrice) {
+      selectedItem = {
+        id: productId,
+        name: productName,
+        price: productPrice
       };
-      cart.push(item);
+      document.getElementById('menuModalLabel').textContent = productName;
+      document.getElementById('quantity').value = 1;
+      document.getElementById('specialRequests').value = '';
+      new bootstrap.Modal(document.getElementById('menuModal')).show();
     }
 
-    updateCartDisplay();
-    bootstrap.Modal.getInstance(document.getElementById('menuModal')).hide();
-  }
+    function addToCart() {
+      const quantity = parseInt(document.getElementById('quantity').value);
+      const specialRequest = document.getElementById('specialRequests').value;
 
-  function removeFromCart(index) {
-    cart.splice(index, 1);
-    updateCartDisplay();
-  }
+      // Check if the item already exists in the cart
+      const existingItemIndex = cart.findIndex(item => item.id === selectedItem.id);
+      if (existingItemIndex !== -1) {
+        // If item exists, update its quantity
+        cart[existingItemIndex].quantity += quantity;
+        cart[existingItemIndex].specialRequest = specialRequest;
+      } else {
+        // If item doesn't exist, add a new item to the cart
+        const item = {
+          ...selectedItem,
+          quantity,
+          specialRequest
+        };
+        cart.push(item);
+      }
 
-  function updateCartDisplay() {
-    const cartItemsContainer = document.getElementById('cartItems');
-    cartItemsContainer.innerHTML = '';
-    let totalPrice = 0;
+      updateCartDisplay();
+      bootstrap.Modal.getInstance(document.getElementById('menuModal')).hide();
+    }
 
-    cart.forEach((item, index) => {
-      const itemTotal = item.price * item.quantity;
-      totalPrice += itemTotal;
-      const listItem = document.createElement('li');
-      listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
-      listItem.innerHTML = `
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartDisplay();
+    }
+
+    function updateCartDisplay() {
+      const cartItemsContainer = document.getElementById('cartItems');
+      cartItemsContainer.innerHTML = '';
+      let totalPrice = 0;
+
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        totalPrice += itemTotal;
+        const listItem = document.createElement('li');
+        listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+        listItem.innerHTML = `
         <div>
           <strong>${item.name}</strong> x ${item.quantity}
           <div><small>Special Request: ${item.specialRequest || 'None'}</small></div>
@@ -210,65 +270,65 @@
           </div>
         </span>
       `;
-      cartItemsContainer.appendChild(listItem);
-    });
+        cartItemsContainer.appendChild(listItem);
+      });
 
-    document.getElementById('cartItemCount').textContent = cart.length;
-    document.getElementById('totalPrice').textContent = totalPrice.toLocaleString('id-ID');
-  }
+      document.getElementById('cartItemCount').textContent = cart.length;
+      document.getElementById('totalPrice').textContent = totalPrice.toLocaleString('id-ID');
+    }
 
-  function decreaseQuantity(index) {
-    if (cart[index].quantity > 1) {
-      cart[index].quantity -= 1;
+    function decreaseQuantity(index) {
+      if (cart[index].quantity > 1) {
+        cart[index].quantity -= 1;
+        updateCartDisplay();
+      }
+    }
+
+    function increaseQuantity(index) {
+      cart[index].quantity += 1;
       updateCartDisplay();
     }
-  }
 
-  function increaseQuantity(index) {
-    cart[index].quantity += 1;
-    updateCartDisplay();
-  }
+    function redirectToCheckout() {
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      const totalPrice = parseFloat(document.getElementById('totalPrice').textContent.replace(/\./g, '').replace('Rp ', ''));
+      const cartItems = cart.map(item => ({
+        id: item.id,
+        quantity: item.quantity,
+        special_request: item.specialRequest
+      }));
 
-  function redirectToCheckout() {
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    const totalPrice = parseFloat(document.getElementById('totalPrice').textContent.replace(/\./g, '').replace('Rp ', ''));
-    const cartItems = cart.map(item => ({
-      id: item.id,
-      quantity: item.quantity,
-      special_request: item.specialRequest
-    }));
+      const customerId = "{{ Auth::guard('customer')->user()->id }}"; // Assuming the customer is logged in and their ID is available
 
-    const customerId = "{{ Auth::guard('customer')->user()->id }}"; // Assuming the customer is logged in and their ID is available
-
-    fetch('/checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': csrfToken
-        },
-        body: JSON.stringify({
-          customer_id: customerId,
-          products: cartItems,
-          total_amount: totalPrice,
-          payment_method: "Qris", // You can make this dynamic based on user selection
-          special_requests: cartItems.map(item => item.special_request)
+      fetch('/checkout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
+          },
+          body: JSON.stringify({
+            customer_id: customerId,
+            products: cartItems,
+            total_amount: totalPrice,
+            payment_method: "Qris", // You can make this dynamic based on user selection
+            special_requests: cartItems.map(item => item.special_request)
+          })
         })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          alert('Payment successful');
-          window.location.href = "/confirmation"; // Redirect to a confirmation page
-        } else {
-          alert('Payment failed: ' + data.message);
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('An unexpected error occurred during payment.');
-      });
-  }
-</script>
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Payment successful');
+            window.location.href = "/customer/checkout"; // Redirect to a confirmation page
+          } else {
+            alert('Payment failed: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An unexpected error occurred during payment.');
+        });
+    }
+  </script>
 
 
 </body>

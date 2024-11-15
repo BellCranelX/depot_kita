@@ -19,4 +19,9 @@ class order_products extends Pivot
     {
         return $this->belongsTo(orders::class, 'order_id');
     }
+
+    public function product()
+    {
+        return $this->belongsTo(Products::class, 'product_id');
+    }
 }

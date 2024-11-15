@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('amount', 8, 2);
             $table->enum('payment_method', ['Qris','Ovo','Gopay','Dana']);
             $table->enum('status', ['pending', 'completed', 'failed']);
+            $table->string('snap_token')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +29,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('transaction');
- 
     }
 };

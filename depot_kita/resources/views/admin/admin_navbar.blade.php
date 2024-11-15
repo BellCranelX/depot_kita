@@ -75,6 +75,18 @@
         .description::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
+
+        .navbar-brand img {
+            height: 70px;
+            /* Adjust as needed */
+            width: auto;
+            margin-right: 8px;
+        }
+
+        .navbar-brand {
+            font-size: 1rem;
+            /* Adjust as needed */
+        }
     </style>
     </style>
 
@@ -102,9 +114,11 @@
                             d="M4 6h16M4 12h16m-7 6h7"></path>
                     </svg>
                 </button>
-                <a href="{{route('admin.dashboard')}}" class="flex items-center ml-4">
+                <a class="navbar-brand" href="{{route('admin.dashboard')}}" class="flex items-center ml-4">
                     <img src="{{ asset('logo/depot_kita.jpg') }}" alt="Logo" class="h-14 w-13 mr-5">
-                    <span class="font-bold text-xl">Depot Kita</span>
+                </a>
+                <a href="{{route('admin.dashboard')}}">Depot Kita
+
                 </a>
             </div>
 
@@ -117,18 +131,18 @@
                     <button id="dropdownButton"
                         class="flex items-center space-x-2 bg-[#20252f] hover:bg-[#ae0001] text-[#f6f1e3] p-2 transition duration-300 focus:outline-none rounded">
                         @if (isset($user))
-                            <img src="{{asset('asset/' . $user->photo)}}" alt="Profile Icon"
-                                class="h-8 w-8 rounded-full bg-[#f6f1e3]">
+                        <img src="{{asset('asset/' . $user->photo)}}" alt="Profile Icon"
+                            class="h-8 w-8 rounded-full bg-[#f6f1e3]">
                         @else
-                            <img src="../../../asset/profile-circle.256x256.png" alt="Profile Icon"
-                                class="h-8 w-8 rounded-full bg-[#f6f1e3]">
+                        <img src="../../../asset/profile-circle.256x256.png" alt="Profile Icon"
+                            class="h-8 w-8 rounded-full bg-[#f6f1e3]">
                         @endif
 
                         <span>
                             @if (isset($user) && $user->role === 'admin')
-                                {{ $user->name }} (Admin)
+                            {{ $user->name }} (Admin)
                             @else
-                                Employee
+                            Employee
                             @endif
                         </span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -165,34 +179,28 @@
         <ul class="space-y-8">
             <li>
                 <a href="{{ route('admin.dashboard')}}" class="flex text-[#f6f1e3] items-center hover:text-[#ae0001]">
-                    <img src="../../../asset/dashboard.png" alt="Dashboard Icon" class="h-6 w-6 mr-4">
-                    Dashboard
+                <img src="{{asset('icon/dashboards.png')}}" alt="Transaction Icon"  class="h-10 w-10 mr-5">
+                Dashboard
                 </a>
             </li>
             <li>
-                <a href="{{ route('menu.index') }}" class="flex items-center text-[#f6f1e3]  hover:text-[#ae0001]">
-                    <i class="fa-solid fa-book-open"></i>
-                    Menus
+                <a href="{{ route('menus.index') }}" class="flex items-center text-[#f6f1e3]  hover:text-[#ae0001]">
+                <img src="{{asset('icon/menu.png')}}" alt="Transaction Icon"  class="h-10 w-10 mr-5">
+                Menus
                 </a>
             </li>
 
             <li>
                 <a href="{{route('transactions.index')}}"
                     class="flex items-center text-[#f6f1e3]  hover:text-[#ae0001]">
-                    <i class="fa-solid fa-scroll"></i>
+                    <img src="{{asset('icon/transaction.png')}}" alt="Transaction Icon"  class="h-10 w-10 mr-5">
                     Transactions
                 </a>
             </li>
             <li>
                 <a href="{{ route('orders.index')}}" class="flex items-center text-[#f6f1e3]  hover:text-[#ae0001]">
-                    <img src="../../../asset/announcement.png" alt="Acara Icon" class="h-6 w-6 mr-4">
+                    <img src="{{asset('icon/order.png')}}" alt="Order Icon" class="h-10  w-10 mr-5">
                     Orders
-                </a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center text-[#f6f1e3]  hover:text-[#ae0001]">
-                    <img src="../../../asset/evaluasi.png" alt="Evaluasi Icon" class="h-6 w-6 mr-4">
-                    Evaluasi
                 </a>
             </li>
         </ul>

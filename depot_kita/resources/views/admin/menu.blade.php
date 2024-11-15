@@ -14,7 +14,7 @@
     @if ($menu->active == 1) <!-- Only show active items -->
         <div class="col-md-4">
             <div class="card h-100"> <!-- Ensure card takes up full height -->
-                <img src="{{ asset('asset/' . $menu->image_url) }}" class="card-img-top" alt="{{ $menu->name }}">
+                <img src="{{ asset('menu/' . $menu->image_url) }}" class="card-img-top" alt="{{ $menu->name }}">
                 <div class="card-body d-flex flex-column" style="height: 300px;"> <!-- Fixed height for the card body -->
                     <h5 class="card-title">{{ $menu->name }}</h5>
                     

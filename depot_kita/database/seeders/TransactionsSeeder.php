@@ -14,28 +14,30 @@ class TransactionsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('transactions')->insert([
-            [
-                'id' => 1,
-                'order_id' => 1,
-                'transaction_date' => Carbon::now(),
-                'amount' => 150.50,
-                'payment_method' => 'Ovo',
-                'status' => 'Completed',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'id' => 2,
-                'order_id' => 2,
-                'transaction_date' => Carbon::now()->subDay(),
-                'amount' => 200.75,
-                'payment_method' => 'Dana',
-                'status' => 'Pending',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            // Add more transactions as needed
-        ]);
+        // DB::table('transactions')->insert([
+        //     [
+        //         'id' => 1,
+        //         'order_id' => 1,
+        //         'transaction_date' => Carbon::now(),
+        //         'amount' => 150.50,
+        //         'payment_method' => 'Ovo',
+        //         'status' => 'Completed',
+        //         'snap_token' => 'snap-token-1',
+        //         'created_at' => Carbon::now(),
+        //         'updated_at' => Carbon::now(),
+        //     ],
+        //     [
+        //         'id' => 2,
+        //         'order_id' => 2,
+        //         'transaction_date' => Carbon::now()->subDay(),
+        //         'amount' => 200.75,
+        //         'payment_method' => 'Dana',
+        //         'status' => 'Pending',
+        //         'snap_token' => 'snap-token-2',
+        //         'created_at' => Carbon::now(),
+        //         'updated_at' => Carbon::now(),
+        //     ],
+        //     // Add more transactions as needed
+        // ]);
     }
 }

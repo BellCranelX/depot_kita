@@ -24,8 +24,6 @@ class OrderController extends Controller
         DB::beginTransaction();
 
         try {
-
-           
             // Step 1: Validate the incoming request data
             $validatedData = $request->validate([
                 'customer_id' => 'required|exists:customer,id',
@@ -64,6 +62,9 @@ class OrderController extends Controller
                 ]);
             }
 
+            // Generate a unique order ID for Midtrans
+            $uniqueOrderId = 'ORDER-' . $order->id . '-' . time();
+
             // Step 5: Create the transaction record
             $transaction = transactions::create([
                 'order_id' => $order->id,
@@ -72,10 +73,39 @@ class OrderController extends Controller
                 'status' => 'pending',
             ]);
 
+            // Configure Midtrans
+            \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+            \Midtrans\Config::$isProduction = false;
+            \Midtrans\Config::$isSanitized = true;
+            \Midtrans\Config::$is3ds = true;
+
+            $customer = Auth::guard('customer')->user();
+            if (!$customer) {
+                return response()->json(['success' => false, 'message' => 'User not authenticated']);
+            }
+
+            $params = array(
+                'transaction_details' => array(
+                    'order_id' => $uniqueOrderId,
+                    'gross_amount' => $totalAmount,
+                ),
+                'customer_details' => array(
+                    'first_name' => $customer->name,
+                    'email' => $customer->email,
+                    'phone' => $customer->phone,
+                ),
+            );
+
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+            // Save the Snap token
+            $transaction->snap_token = $snapToken;
+            $transaction->save();
+
             DB::commit();
 
             // Step 7: Return success response
-            return response()->json(['success' => true, 'message' => 'Order and transaction created successfully!']);
+            return response()->json(['success' => true, 'message' => 'Order and transaction created successfully!', 'snapToken' => $snapToken]);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['success' => false, 'message' => 'Transaction failed: ' . $e->getMessage()]);
@@ -83,9 +113,45 @@ class OrderController extends Controller
     }
 
 
+
     private function generateWaitingListNumber()
     {
         // Generate a unique waiting list number logic
         return orders::max('waiting_list_number') + 1;
+    }
+
+    public function checkout(Request $request)
+    {
+        $customer = Auth::guard('customer')->user();
+
+        if (!$customer) {
+            return redirect()->route('login')->with('error', 'Please log in to access the checkout page.');
+        }
+
+        $products = products::whereIn('id', session('cart', []))->get();
+
+        // Get pending transactions for this customer
+        $transactions = transactions::whereHas('order', function ($query) use ($customer) {
+            $query->where('customer_id', $customer->id);
+        })->where('status', 'pending')->get();
+
+        return view('customer.checkout', compact('products', 'transactions'));
+    }
+
+    public function success(Request $request)
+    {
+        // Find the transaction using the provided Snap token
+        $transaction = transactions::where('snap_token', $request->input('token'))->first();
+
+        if (!$transaction) {
+            return redirect()->route('home')->with('error', 'Transaction not found.');
+        }
+
+        // Update transaction status to 'completed'
+        $transaction->status = 'completed';
+        $transaction->save();
+
+        // Redirect to success page with a success message
+        return redirect()->route('order.success')->with('success', 'Transaction completed successfully!');
     }
 }

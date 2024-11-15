@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\customers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CustomersController extends Controller
 {
@@ -61,5 +62,21 @@ class CustomersController extends Controller
     public function destroy(customers $customers)
     {
         //
+    }
+
+    public function profile()
+    {
+        // Render profile view for the logged-in customer
+        return view('customer.profile', ['customer' => Auth::guard('customer')->user()]);
+    }
+
+    // CustomerController.php
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/customer/login');  // Redirect to the login page or wherever you wish.
     }
 }

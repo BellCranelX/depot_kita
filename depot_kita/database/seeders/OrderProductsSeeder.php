@@ -14,27 +14,27 @@ class OrderProductsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('order_products')->insert([
-            [
-                'id' => 1,
-                'order_id' => 1,
-                'product_id' => 3,
-                'quantity' => 2,
-                'price' => 25.00,
-                'subtotal' => 50.00,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'id' => 2,
-                'order_id' => 1,
-                'product_id' => 1,
-                'quantity' => 3,
-                'price' => 20.00,
-                'subtotal' => 60.00,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]
-        ]);
+    //     DB::table('order_products')->insert([
+    //         [
+    //             'id' => 1,
+    //             'order_id' => 1,
+    //             'product_id' => 3,
+    //             'quantity' => 2,
+    //             'price' => 25.00,
+    //             'subtotal' => 50.00,
+    //             'created_at' => Carbon::now(),
+    //             'updated_at' => Carbon::now(),
+    //         ],
+    //         [
+    //             'id' => 2,
+    //             'order_id' => 1,
+    //             'product_id' => 1,
+    //             'quantity' => 3,
+    //             'price' => 20.00,
+    //             'subtotal' => 60.00,
+    //             'created_at' => Carbon::now(),
+    //             'updated_at' => Carbon::now(),
+    //         ]
+    //     ]);
     }
 }

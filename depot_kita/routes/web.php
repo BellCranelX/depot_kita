@@ -46,7 +46,7 @@ Route::post('/checkout', [OrderController::class, 'processCheckout'])->middlewar
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::get('admin/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
 
@@ -105,17 +105,34 @@ Route::middleware([EnsureCustomerIsAuthenticated::class])->group(function () {
     Route::get('/customer/order', [AuthController::class, 'order'])->name('customer.order');
 });
 
-Route::get('/customer/order', action: [ProductsController::class, 'showMenu'])->name('customer.order');
-Route::post('/checkout', [OrderController::class, 'processCheckout'])->name('checkout');
+
 
 use App\Http\Controllers\MenuController;
 
-Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
+Route::get('/admin/menu', [MenuController::class, 'index'])->name('menus.index');
 // Define the route for storing the new product
 Route::post('/menus', [MenuController::class, 'store'])->name('menus.store');
 
 Route::delete('/menus/{id}', [MenuController::class, 'destroy'])->name('menus.destroy');
 
 
+Route::get('/customer/order', action: [ProductsController::class, 'showMenu'])->name('customer.order');
+Route::post('/checkout', [OrderController::class, 'processCheckout'])->name('checkout');
+Route::middleware('auth:customer')->group(function () {
+    Route::get('/customer/profile', [CustomersController::class, 'profile'])->name('customer.profile');
+    // web.php
+    Route::post('/customer/logout', [CustomersController::class, 'logout'])->name('customer.logout');
+});
 
 
+Route::get('/customer/checkout', [OrderController::class, 'checkout'])->name('customer.checkout');
+
+
+
+// Success callback route
+Route::post('/payment/success', [OrderController::class, 'success'])->name('payment.success');
+
+// Route to show the order success page
+Route::get('/order/success', function () {
+    return view('customer.order-success');
+})->name('order.success');
