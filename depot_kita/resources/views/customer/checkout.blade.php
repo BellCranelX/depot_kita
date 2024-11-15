@@ -10,28 +10,28 @@
 
 <body class="bg-gray-100">
 
-
   <div class="max-w-3xl mx-auto py-10 px-6 bg-white shadow-lg rounded-lg mt-10">
     <h1 class="text-2xl font-bold text-center mb-8">Checkout</h1>
 
+    <!-- Waiting List Notification -->
+    <div id="waitingListNotification" class="bg-green-100 text-green-700 p-4 rounded mb-6 hidden">
+      Payment successful! Your waiting list number is: <span id="waitingListNumber"></span>
+    </div>
 
-    <!-- Products List -->
-    <!-- Pending Transactions -->
-    <!-- Pending Transactions -->
     <!-- Pending Transactions -->
     <h2 class="text-xl font-semibold mb-4">Pending Transactions</h2>
     <ul class="bg-gray-50 p-4 rounded-lg mb-6">
       @foreach ($transactions as $transaction)
-      <li class="mb-4 p-4 bg-white rounded-lg shadow-sm border">
+      <li id="transaction-{{ $transaction->id }}" class="mb-4 p-4 bg-white rounded-lg shadow-sm border">
         <p><strong>Transaction ID:</strong> {{ $transaction->id }}</p>
         <p><strong>Amount:</strong> {{ number_format($transaction->amount, 2) }} IDR</p>
         <p><strong>Payment Method:</strong> {{ ucfirst($transaction->payment_method) }}</p>
 
-        <!-- Display ordered products for this transaction -->
+        <!-- Ordered Products for this transaction -->
         <h3 class="text-lg font-semibold mt-2">Ordered Products:</h3>
         <ul class="bg-gray-100 p-2 rounded-lg">
           @foreach ($transaction->order->orderProducts as $orderProduct)
-          @if($orderProduct->product) <!-- Check if product exists -->
+          @if($orderProduct->product)
           <li class="flex items-center p-2 border-b border-gray-200 last:border-b-0">
             <img src="{{ asset('menu/' . $orderProduct->product->image_url) }}" alt="{{ $orderProduct->product->name }}" class="w-20 h-20 mr-4 rounded">
             <div class="flex-grow">
@@ -63,10 +63,9 @@
       button.onclick = function() {
         const snapToken = button.getAttribute('data-snap-token');
 
-        // Initiate payment
         snap.pay(snapToken, {
           onSuccess: function(result) {
-            // Send AJAX request to update transaction status
+            // AJAX request to update transaction status
             fetch("{{ route('payment.success') }}", {
                 method: "POST",
                 headers: {
@@ -79,30 +78,35 @@
               })
               .then(response => response.json())
               .then(data => {
-                if (data.success) {
-                  // Redirect to the order success page
-                  console.log("Transaction completed, redirecting to success page.");
-                  window.location.href = "{{ route('order.success') }}";
+                console.log('Payment Success Response:', data); // Debugging response
+                if (data.success && data.waiting_list_number) {
+                  // Display the waiting list number
+                  document.getElementById('waitingListNumber').textContent = data.waiting_list_number;
+                  document.getElementById('waitingListNotification').classList.remove('hidden');
+
+                  // Remove the transaction from the pending list
+                  const transactionElement = document.querySelector(`#transaction-${data.transaction_id}`);
+                  if (transactionElement) {
+                    transactionElement.remove();
+                  }
                 } else {
-                  document.getElementById('result-json').innerHTML += JSON.stringify(data.message, null, 2);
+                  console.error('Transaction update failed:', data.message);
                 }
               })
               .catch(error => {
                 console.error('Error updating transaction status:', error);
-                document.getElementById('result-json').innerHTML += JSON.stringify(error, null, 2);
               });
           },
           onPending: function(result) {
-            document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            console.log('Payment is pending:', result);
           },
           onError: function(result) {
-            document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            console.error('Payment error:', result);
           }
         });
       };
     });
   </script>
-
 
 </body>
 

@@ -28,7 +28,7 @@ Route::get('/order', function () {
     return view('order');
 })->name('order.page');
 
-Route::post('/order/submit', [OrderController::class, 'submit'])->name('order.submit');
+
 
 
 Route::middleware('auth')->group(function () {
@@ -40,9 +40,6 @@ Route::middleware('auth')->group(function () {
 Route::get('/checkout', function () {
     return view('checkout');
 });
-
-
-Route::post('/checkout', [OrderController::class, 'processCheckout'])->middleware('auth:customer');
 
 
 
@@ -105,7 +102,14 @@ Route::middleware([EnsureCustomerIsAuthenticated::class])->group(function () {
     Route::get('/customer/order', [AuthController::class, 'order'])->name('customer.order');
 });
 
+Route::post('/checkout', [OrdersController::class, 'processCheckout'])->middleware('auth:customer');
 
+Route::post('/order/submit', [OrdersController::class, 'submit'])->name('order.submit');
+
+
+Route::get('/customer/order', action: [ProductsController::class, 'showMenu'])->name('customer.order');
+
+Route::post('/checkout', [OrdersController::class, 'processCheckout'])->name('checkout');
 
 use App\Http\Controllers\MenuController;
 
@@ -116,8 +120,7 @@ Route::post('/menus', [MenuController::class, 'store'])->name('menus.store');
 Route::delete('/menus/{id}', [MenuController::class, 'destroy'])->name('menus.destroy');
 
 
-Route::get('/customer/order', action: [ProductsController::class, 'showMenu'])->name('customer.order');
-Route::post('/checkout', [OrderController::class, 'processCheckout'])->name('checkout');
+
 Route::middleware('auth:customer')->group(function () {
     Route::get('/customer/profile', [CustomersController::class, 'profile'])->name('customer.profile');
     // web.php
@@ -132,12 +135,12 @@ Route::post('/register', [CustomersController::class, 'register'])->name('custom
 
 
 
-Route::get('/customer/checkout', [OrderController::class, 'checkout'])->name('customer.checkout');
+Route::get('/customer/checkout', [OrdersController::class, 'checkout'])->name('customer.checkout');
 
 
 
 // Success callback route
-Route::post('/payment/success', [OrderController::class, 'success'])->name('payment.success');
+Route::post('/payment/success', [OrdersController::class, 'success'])->name('payment.success');
 
 // Route to show the order success page
 Route::get('/order/success', function () {
