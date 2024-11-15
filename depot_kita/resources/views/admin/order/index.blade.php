@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-2 btn-group">
+        <div class="col-md-4 mt-4 btn-group">
             <h1>List Orders</h1>
         </div>
     </div>
@@ -12,6 +12,7 @@
             <tr>
                 <th>ID</th>
                 <th>Customer ID</th>
+                <th>Customer Name</th>
                 <th>Order Date</th>
                 <th>Waiting Number</th>
                 <th>Total Price</th>
@@ -25,6 +26,7 @@
             <tr> 
                 <td>{{ $order->id }}</td>
                 <td>{{ $order->customer_id }}</td>
+                <td>{{$order->customer->name}}</td>
                 <td>{{ $order->order_date }}</td>
                 <td>{{ $order->waiting_list_number }}</td>
                 <td>{{ $order->total_amount }}</td>

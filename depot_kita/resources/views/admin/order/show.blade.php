@@ -2,21 +2,56 @@
 
 @section('content')
 <div class="container">
-<div class="row">
-        <div class="col-md-2 btn-group">
-            <h1>List Orders</h1>
+    <div class="row">
+        <div class="col-md-4 mt-4 btn-group">
+            <h1>Order Details</h1>
         </div>
     </div>
     <div class="row mt-4">
         <div class="col-md-12">
-            <h3>Order Details</h3>
-            <!-- Add table classes for Bootstrap styling -->
+            <h3>Order Summary</h3>
+            <!-- Display main order details in a styled table -->
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <th>Order ID</th>
+                    <td>{{ $orderData->id }}</td>
+                </tr>
+                <tr>
+                    <th>Customer ID</th>
+                    <td>{{ $orderData->customer_id }}</td>
+                </tr>
+                <tr>
+                    <th>Customer Name</th>
+                    <td>{{$orderData->customer->name}}</td>
+                </tr>
+                <tr>
+                    <th>Order Date</th>
+                    <td>{{ $orderData->order_date }}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{{ $orderData->status }}</td>
+                </tr>
+                <tr>
+                    <th>Waiting List Number</th>
+                    <td>{{ $orderData->waiting_list_number }}</td>
+                </tr>
+                <tr>
+                    <th>Total Amount</th>
+                    <td>{{ number_format($orderData->total_amount, 2) }}</td>
+                </tr>
+                <tr>
+                    <th>Special Requests</th>
+                    <td>{{ $orderData->special_requests ?? 'None' }}</td>
+                </tr>
+            </table>
+
+            <h3>Order Products</h3>
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Order ID</th>
-                        <th>Product ID</th>
+                        <th>Menu ID</th>
+                        <th>Menu Name</th>
                         <th>Quantity</th>
                         <th>Price</th>
                         <th>Subtotal</th>
@@ -25,22 +60,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if($orderData && $orderData->isNotEmpty())
-                    @foreach($orderData as $order)
+                    @if($orderData->orderProducts->isNotEmpty())
+                    @foreach($orderData->orderProducts as $product)
                     <tr>
-                        <td>{{ $order->id }}</td>
-                        <td>{{ $order->order_id }}</td>
-                        <td>{{ $order->product_id }}</td>
-                        <td>{{ $order->quantity }}</td>
-                        <td>{{ number_format($order->price, 2) }}</td>
-                        <td>{{ number_format($order->subtotal, 2) }}</td>
-                        <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d F Y H:i:s') }}</td>
-                        <td>{{ \Carbon\Carbon::parse($order->updated_at)->format('d F Y H:i:s') }}</td>
+                        <td>{{ $product->product_id }}</td>
+                        <td>{{$product->product->name}}</td>
+                        <td>{{ $product->quantity }}</td>
+                        <td>{{ number_format($product->price, 2) }}</td>
+                        <td>{{ number_format($product->subtotal, 2) }}</td>
+                        <td>{{ \Carbon\Carbon::parse($product->created_at)->format('d F Y H:i:s') }}</td>
+                        <td>{{ \Carbon\Carbon::parse($product->updated_at)->format('d F Y H:i:s') }}</td>
                     </tr>
                     @endforeach
                     @else
                     <tr>
-                        <td colspan="8">No order data available.</td>
+                        <td colspan="6">No products found for this order.</td>
                     </tr>
                     @endif
                 </tbody>
@@ -60,6 +94,8 @@
 <script src="{{ asset('asset/jquery.js') }}"></script>
 <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
 <script>
-    $(document).ready(function() {});
+    $(document).ready(function() {
+        $('.table').DataTable();
+    });
 </script>
 @endpush

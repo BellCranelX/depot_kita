@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\customers;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class CustomersController extends Controller
 {
@@ -35,7 +37,7 @@ class CustomersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(customers $customers)
+    public function show(Customer $Customer)
     {
         //
     }
@@ -43,7 +45,7 @@ class CustomersController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(customers $customers)
+    public function edit(Customer $Customer)
     {
         //
     }
@@ -51,7 +53,7 @@ class CustomersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, customers $customers)
+    public function update(Request $request, Customer $Customer)
     {
         //
     }
@@ -59,7 +61,7 @@ class CustomersController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(customers $customers)
+    public function destroy(Customer $Customer)
     {
         //
     }
@@ -78,5 +80,38 @@ class CustomersController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/customer/login');  // Redirect to the login page or wherever you wish.
+    }
+
+    public function showRegistrationForm()
+    {
+        return view('customer.register');
+    }
+
+    // Handle the registration
+    public function register(Request $request)
+    {
+        // Validation
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:Customer,email',
+            'phone_number' => 'required|string|max:255',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Handle validation errors
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        // Create the customer
+        $customer = new Customer();
+        $customer->name = $request->name;
+        $customer->email = $request->email;
+        $customer->phone_number = $request->phone_number;
+        $customer->password = Hash::make($request->password);
+        $customer->save();
+
+        // Redirect to login or home page after successful registration
+        return redirect()->route('customer.login')->with('success', 'Registration successful! Please log in.');
     }
 }

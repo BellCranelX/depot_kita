@@ -12,9 +12,10 @@ class OrdersController extends Controller
      */
     public function index()
     {
-        $orders = Orders::orderBy("created_at", "desc")->paginate(10);
+        $orders = Orders::with('customer')->orderBy("created_at", "desc")->paginate(10); // Eager load customer relationship
         return view("admin.order.index", compact("orders"));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -37,13 +38,13 @@ class OrdersController extends Controller
      */
     public function show(string $id)
     {
-        // Retrieve the order details along with its items
-        $orderData = orders::where('id', $id)->with('OrderProducts')->firstOrFail(); // Ensure it’s not null
+        // Retrieve the order along with its related products (orderProducts)
+        $orderData = orders::with('orderProducts','customer','products')->findOrFail($id);
+
         return view("admin.order.show", [
-            "orderData" => $orderData->orderItems // Pass related items if it’s a relationship
+            "orderData" => $orderData
         ]);
     }
-
 
 
     /**

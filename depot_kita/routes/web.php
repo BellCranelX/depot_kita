@@ -125,6 +125,13 @@ Route::middleware('auth:customer')->group(function () {
 });
 
 
+
+
+Route::get('/register', [CustomersController::class, 'showRegistrationForm'])->name('customer.register');
+Route::post('/register', [CustomersController::class, 'register'])->name('customer.register.submit');
+
+
+
 Route::get('/customer/checkout', [OrderController::class, 'checkout'])->name('customer.checkout');
 
 
