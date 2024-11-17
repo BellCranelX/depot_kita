@@ -210,12 +210,17 @@ class OrdersController extends Controller
         $transaction = transactions::where('snap_token', $request->input('token'))->first();
 
         if (!$transaction) {
-            return redirect()->route('home')->with('error', 'Transaction not found.');
+            return response()->json(['success' => false, 'message' => 'Transaction not found.'], 404);
         }
 
-        // Check if the transaction is already completed to avoid duplicate stock deduction
+        // Check if the transaction is already completed
         if ($transaction->status === 'completed') {
-            return redirect()->route('order.success')->with('success', 'Transaction already completed.')->with('waiting_list_number', $transaction->order->waiting_list_number);
+            return response()->json([
+                'success' => true,
+                'transaction_id' => $transaction->id,
+                'waiting_list_number' => $transaction->order->waiting_list_number,
+                'message' => 'Transaction already completed.'
+            ]);
         }
 
         // Update transaction status to 'completed'
@@ -233,9 +238,13 @@ class OrdersController extends Controller
             }
         }
 
-        // Redirect to success page with a success message and the waiting list number
-        return redirect()->route('order.success')
-            ->with('success', 'Transaction completed successfully!')
-            ->with('waiting_list_number', $transaction->order->waiting_list_number);
+        // Return a JSON response with the waiting list number
+        return response()->json([
+            'success' => true,
+            'transaction_id' => $transaction->id,
+            'waiting_list_number' => $order->waiting_list_number,
+            'message' => 'Transaction completed successfully.'
+        ]);
     }
+
 }

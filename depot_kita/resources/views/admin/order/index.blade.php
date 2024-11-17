@@ -1,38 +1,53 @@
 @extends('admin/admin_navbar')
 
 @section('content')
-<div class="container">
-    <div class="row">
+<div class="container-fluid position-relative" 
+     style="background: url('{{ asset('asset/food.jpg') }}') no-repeat center center / cover; 
+            height: 100vh; 
+            padding: 20px;">
+    <!-- Semi-transparent overlay -->
+    <div class="position-absolute" 
+         style="background: rgba(255, 255, 255, 0.5); 
+                top: 0; 
+                left: 0; 
+                width: 100%; 
+                height: 100%; 
+                pointer-events: none;">
+    </div>
+
+    <!-- Main Content -->
+    <div class="row position-relative" style="z-index: 1;">
         <div class="col-md-4 mt-4 btn-group">
             <h1>List Orders</h1>
         </div>
     </div>
-    <table id="orderData" class="table table-striped display">
+    
+    <table id="orderData" class="table table-striped table-bordered position-relative" style="z-index: 1;">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Customer ID</th>
-                <th>Customer Name</th>
-                <th>Order Date</th>
-                <th>Waiting Number</th>
-                <th>Total Price</th>
-                <th>Note</th>
-                <th>Status</th>
-                <th>Action</th>
+                <th style="background-color:#9b9e9e">ID</th>
+                <th style="background-color:#9b9e9e">Customer ID</th>
+                <th style="background-color:#9b9e9e">Customer Name</th>
+                <th style="background-color:#9b9e9e">Order Date</th>
+                <th style="background-color:#9b9e9e">Waiting Number</th>
+                <th style="background-color:#9b9e9e">Total Price</th>
+                <th style="background-color:#9b9e9e">Note</th>
+                <th style="background-color:#9b9e9e">Status</th>
+                <th style="background-color:#9b9e9e">Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($orders as $order)
-            <tr> 
-                <td>{{ $order->id }}</td>
-                <td>{{ $order->customer_id }}</td>
-                <td>{{$order->customer->name}}</td>
-                <td>{{ $order->order_date }}</td>
-                <td>{{ $order->waiting_list_number }}</td>
-                <td>{{ $order->total_amount }}</td>
-                <td>{{ $order->special_requests }}</td>
-                <td>{{ $order->status }}</td>
-                <td>
+            <tr>
+                <td style="background-color:  #c2c5c5">{{ $order->id }}</td>
+                <td style="background-color:  #c2c5c5">{{ $order->customer_id }}</td>
+                <td style="background-color:  #c2c5c5">{{ $order->customer->name }}</td>
+                <td style="background-color:  #c2c5c5">{{ $order->order_date }}</td>
+                <td style="background-color:  #c2c5c5">{{ $order->waiting_list_number }}</td>
+                <td style="background-color:  #c2c5c5">{{ $order->total_amount }}</td>
+                <td style="background-color:  #c2c5c5">{{ $order->special_requests }}</td>
+                <td style="background-color:  #c2c5c5">{{ $order->status }}</td>
+                <td style="background-color:  #c2c5c5">
                     <div class="btn-group btn-group-sm" role="group" aria-label="Action">
                         <a href="{{ route('orders.show', [ "order" => $order->id ]) }}">
                             <button type="button" class="btn btn-sm btn-primary ml-1">

@@ -23,13 +23,14 @@
         body {
             font-family: 'Poltawski Nowy', serif;
             background-color: #FCF1D5;
-            padding-top: 64px;
+            padding-top: 48px;
         }
 
         .card {
             cursor: pointer;
             transition: transform 0.3s;
             height: 100%;
+            background-color:  #b3b9b9;
         }
 
         .card:hover {
@@ -87,6 +88,29 @@
             font-size: 1rem;
             /* Adjust as needed */
         }
+
+        .table {
+            background-color: lightblue;
+        }
+
+        .table-striped {
+            border: 1px solid black;
+        }
+        .container-fluid {
+            flex: 1; /* Ensures the container takes up remaining space */
+        }
+
+        .background-overlay {
+            background: url('{{ asset('asset/food.jpg') }}') no-repeat center center; 
+                background-size: cover; 
+                opacity: 0.5; 
+                position: absolute; 
+                top: 0; 
+                left: 0; 
+                width: 100%; 
+                height: 100%; 
+                z-index: -1;
+        }
     </style>
     </style>
 
@@ -131,18 +155,18 @@
                     <button id="dropdownButton"
                         class="flex items-center space-x-2 bg-[#20252f] hover:bg-[#ae0001] text-[#f6f1e3] p-2 transition duration-300 focus:outline-none rounded">
                         @if (isset($user))
-                        <img src="{{asset('asset/' . $user->photo)}}" alt="Profile Icon"
-                            class="h-8 w-8 rounded-full bg-[#f6f1e3]">
+                            <img src="{{asset('asset/' . $user->photo)}}" alt="Profile Icon"
+                                class="h-8 w-8 rounded-full bg-[#f6f1e3]">
                         @else
-                        <img src="../../../asset/profile-circle.256x256.png" alt="Profile Icon"
-                            class="h-8 w-8 rounded-full bg-[#f6f1e3]">
+                            <img src="../../../asset/profile-circle.256x256.png" alt="Profile Icon"
+                                class="h-8 w-8 rounded-full bg-[#f6f1e3]">
                         @endif
 
                         <span>
                             @if (isset($user) && $user->role === 'admin')
-                            {{ $user->name }} (Admin)
+                                {{ $user->name }} (Admin)
                             @else
-                            Employee
+                                Employee
                             @endif
                         </span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -179,21 +203,21 @@
         <ul class="space-y-8">
             <li>
                 <a href="{{ route('admin.dashboard')}}" class="flex text-[#f6f1e3] items-center hover:text-[#ae0001]">
-                <img src="{{asset('icon/dashboards.png')}}" alt="Transaction Icon"  class="h-10 w-10 mr-5">
-                Dashboard
+                    <img src="{{asset('icon/dashboards.png')}}" alt="Transaction Icon" class="h-10 w-10 mr-5">
+                    Dashboard
                 </a>
             </li>
             <li>
                 <a href="{{ route('menus.index') }}" class="flex items-center text-[#f6f1e3]  hover:text-[#ae0001]">
-                <img src="{{asset('icon/menu.png')}}" alt="Transaction Icon"  class="h-10 w-10 mr-5">
-                Menus
+                    <img src="{{asset('icon/menu.png')}}" alt="Transaction Icon" class="h-10 w-10 mr-5">
+                    Menus
                 </a>
             </li>
 
             <li>
                 <a href="{{route('transactions.index')}}"
                     class="flex items-center text-[#f6f1e3]  hover:text-[#ae0001]">
-                    <img src="{{asset('icon/transaction.png')}}" alt="Transaction Icon"  class="h-10 w-10 mr-5">
+                    <img src="{{asset('icon/transaction.png')}}" alt="Transaction Icon" class="h-10 w-10 mr-5">
                     Transactions
                 </a>
             </li>

@@ -15,7 +15,7 @@
 
     <!-- Waiting List Notification -->
     <div id="waitingListNotification" class="bg-green-100 text-green-700 p-4 rounded mb-6 hidden">
-      Payment successful! Your waiting list number is: <span id="waitingListNumber"></span>
+      Payment successful! Your waiting list number is: <span id="waitingListNumber" class="font-bold"></span>
     </div>
 
     <!-- Pending Transactions -->
@@ -54,6 +54,14 @@
       </li>
       @endforeach
     </ul>
+
+    <!-- Back to Orders Button -->
+    <div class="text-center">
+  <a href="{{ url('customer/order') }}" class="inline-block bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded">
+    Back to Orders
+  </a>
+</div>
+
   </div>
 
   <!-- Midtrans Snap.js Library -->
@@ -78,7 +86,6 @@
               })
               .then(response => response.json())
               .then(data => {
-                console.log('Payment Success Response:', data); // Debugging response
                 if (data.success && data.waiting_list_number) {
                   // Display the waiting list number
                   document.getElementById('waitingListNumber').textContent = data.waiting_list_number;
