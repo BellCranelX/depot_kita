@@ -1,7 +1,17 @@
 @extends('admin/admin_navbar')
 
 @section('content')
-<div class="container">
+<div class="container-fluid position-relative"
+    style="{{ 'background: url(' . asset('asset/food.jpg') . ') no-repeat center center / cover; height: 100vh; padding: 20px;' }}">
+    <!-- Semi-transparent overlay -->
+    <div class="position-absolute"
+        style="background: rgba(255, 255, 255, 0.5); 
+                top: 0; 
+                left: 0; 
+                width: 100%; 
+                height: 100%; 
+                pointer-events: none;">
+    </div>
     <div class="row">
         <div class="col-md-4 mt-4 btn-group">
             <h1>Order Details</h1>

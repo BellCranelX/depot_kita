@@ -10,6 +10,7 @@ use App\Models\transactions;
 use App\Models\order_products;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Customer;
 
 
 class OrdersController extends Controller
@@ -17,10 +18,41 @@ class OrdersController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Orders::with('customer')->orderBy("created_at", "desc")->paginate(10); // Eager load customer relationship
-        return view("admin.order.index", compact("orders"));
+        $query = orders::query();
+
+        // Filter by customer name
+        if ($request->filled('customer_name')) {
+            $query->whereHas('customer', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->customer_name . '%');
+            });
+        }
+
+        // Filter by product name
+        if ($request->filled('product')) {
+            $query->whereHas('products', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->product . '%');
+            });
+        }
+
+        // Filter by order status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Fetch customers for the dropdown
+        $customers = Customer::all();
+
+        // Paginate the filtered orders
+        $orders = $query->paginate(10);
+
+        // Pass data to the view
+        return view('admin.order.index', [
+            'orders' => $orders,
+            'customers' => $customers, // Pass customers for the dropdown
+            'filters' => $request->only(['customer_name', 'product', 'status']),
+        ]);
     }
 
 
@@ -57,18 +89,31 @@ class OrdersController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(orders $orders)
+    public function edit($id)
     {
-        //
+        $order = orders::with(['customer', 'orderProducts.product'])->findOrFail($id);
+
+        return view('admin.order.edit', [
+            'orderData' => $order,
+        ]);
     }
+
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, orders $orders)
+    public function update(Request $request, $id)
     {
-        //
+        $order = orders::findOrFail($id);
+        $order->status = $request->input('status');
+        $order->save();
+
+        return redirect()->route('orders.index')->with('success', 'Order status updated successfully.');
     }
+
+
+
 
     /**
      * Remove the specified resource from storage.

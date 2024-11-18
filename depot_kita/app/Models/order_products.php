@@ -13,6 +13,7 @@ class order_products extends Pivot
         'product_id',
         'quantity',
         'price',
+        'status',
         'subtotal'
     ];
     public function order()

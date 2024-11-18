@@ -69,6 +69,7 @@ Route::resource('transactions', TransactionsController::class)->names([
     'destroy' => 'transactions.destroy',
 ]);
 
+
 Route::resource('orders', OrdersController::class)->names([
     'index' => 'orders.index',
     'create' => 'orders.create',
@@ -88,6 +89,8 @@ Route::resource('customers', CustomersController::class)->names([
     'update' => 'customers.update',
     'destroy' => 'customers.destroy',
 ]);
+Route::get('/orders/{order}/edit', [OrdersController::class, 'edit'])->name('orders.edit');
+
 
 Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
@@ -146,3 +149,6 @@ Route::post('/payment/success', [OrdersController::class, 'success'])->name('pay
 Route::get('/order/success', function () {
     return view('customer.order-success');
 })->name('order.success');
+
+
+Route::post('/orders/{id}/update-status', [OrdersController::class, 'updateStatus']);

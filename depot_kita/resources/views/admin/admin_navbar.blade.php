@@ -279,32 +279,7 @@
             }
         });
 
-        //dropdown list jadwal
-        const jadwalButton = document.getElementById('jadwalButton');
-        const jadwalDropdown = document.getElementById('jadwalDropdown');
-
-        jadwalButton.addEventListener('click', () => {
-            jadwalDropdown.classList.toggle('hidden');
-            jadwalButton.querySelector('svg').classList.toggle('rotate-180'); // Rotate arrow icon
-        });
-
-        //dropdown input
-        const inputButton = document.getElementById('inputButton');
-        const inputDropdown = document.getElementById('inputDropdown');
-
-        inputButton.addEventListener('click', () => {
-            inputDropdown.classList.toggle('hidden');
-            inputButton.querySelector('svg').classList.toggle('rotate-180'); // Rotate arrow icon
-        });
-
-        //dropdown pengurus
-        const pengurusButton = document.getElementById('pengurusButton');
-        const pengurusDropdown = document.getElementById('pengurusDropdown');
-
-        pengurusButton.addEventListener('click', () => {
-            pengurusDropdown.classList.toggle('hidden');
-            pengurusButton.querySelector('svg').classList.toggle('rotate-180'); // Rotate arrow icon
-        });
+    
     </script>
 
 </body>
