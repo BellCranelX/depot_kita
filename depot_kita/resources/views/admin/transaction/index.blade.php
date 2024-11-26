@@ -15,7 +15,7 @@
                 pointer-events: none;">
     </div>
     <div class="row">
-        <div class="col-md-8 mt-4">
+        <div class="col-md-8 mt-4 font-bold text-black">
             <h1>List Transactions</h1>
         </div>
         <div class="col-md-4 mt-4">
@@ -41,7 +41,7 @@
     </div>
     <div class="row mt-4">
         <div class="col-md-12">
-            <h5>Total Transactions: <span class="">Rp {{ number_format($totalAmount, 2) }}</span></h5>
+            <h5 class="text-red-500 font-bold">Total Transactions: <span class="">Rp {{ number_format($totalAmount, 2) }}</span></h5>
         </div>
     </div>
 

@@ -45,7 +45,7 @@
 
     <!-- Result Count -->
     <div class="row mt-3">
-        <div class="col">
+        <div class="col text-black font-bold">
             <p>
                 Showing <strong>{{ $orders->count() }}</strong> of 
                 <strong>{{ $orders->total() }}</strong> results.
