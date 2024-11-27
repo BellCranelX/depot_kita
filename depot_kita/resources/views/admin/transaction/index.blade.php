@@ -2,18 +2,10 @@
 
 @section('content')
 <div class="container-fluid position-relative"
-    style="background: url('{{ asset('asset/food.jpg') }}') no-repeat center center / cover; 
-            height: 100vh; 
-            padding: 20px;">
-    <!-- Semi-transparent overlay -->
-    <div class="position-absolute"
-        style="background: rgba(255, 255, 255, 0.5); 
-                top: 0; 
-                left: 0; 
-                width: 100%; 
-                height: 100%; 
-                pointer-events: none;">
-    </div>
+    style="background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), 
+           url('{{ asset('asset/food.jpg') }}') no-repeat center center / cover; 
+           height: 100vh; 
+           padding: 20px;">
     <div class="row">
         <div class="col-md-8 mt-4 font-bold text-black">
             <h1>List Transactions</h1>
@@ -45,7 +37,7 @@
         </div>
     </div>
 
-    <table id="transactionData" class="table table-striped table-bordered position-relative" style="z-index: 1;">
+    <table id="transactionData" class="table table-striped table-bordered">
         <thead>
             <tr>
                 <th style="background-color:#9b9e9e">ID</th>

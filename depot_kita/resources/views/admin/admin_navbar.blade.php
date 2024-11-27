@@ -20,8 +20,12 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
+        @font-face {
+    font-family: 'MyFont';
+    src: url('{{ asset('asset/MADE TOMMY Regular_PERSONAL USE.otf') }}') format('opentype');
+}
         body {
-            font-family: 'Poltawski Nowy', serif;
+            font-family: 'MyFont', serif;
             background-color: #FCF1D5;
             padding-top: 48px;
         }
